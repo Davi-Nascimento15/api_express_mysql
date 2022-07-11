@@ -104,7 +104,7 @@ app.get('/faltas', (req,resp)=>{
  app.get('/faltas/:id?',(req,resp)=>{
      let filtro = '';
      if(req.params.id){
-         filtro = ' where idaluno='+parseInt(req.params.id);
+         filtro = ' where aluno_idaluno='+parseInt(req.params.id);
      }
      execSQLQuery('SELECT * FROM presenca'+filtro,resp);
  });
@@ -121,8 +121,8 @@ app.get('/faltas', (req,resp)=>{
      const idprsenca = parseInt(req.body.idprsenca);
      const data = req.body.data;
      const falta = req.body.falta;
-     const idaluno =parseInt(req.body.idaluno);
-     execSQLQuery("Insert into presenca (idpresenca,data,falta,idaluno) values("+ idpresenca + ",'"+data+"','"+falta+"',"+idaluno+")",resp); 
+     const idaluno =parseInt(req.body.aluno_idaluno);
+     execSQLQuery("Insert into presenca (idpresenca,data,falta,aluno_idaluno) values("+ idpresenca + ",'"+data+"','"+falta+"',"+idaluno+")",resp); 
  });
  
  //Update
@@ -131,8 +131,8 @@ app.get('/faltas', (req,resp)=>{
     const idprsenca = parseInt(req.body.idprsenca);
     const data = req.body.data;
     const falta = req.body.falta;
-    const idaluno =parseInt(req.body.idaluno);
-    execSQLQuery("Update usuario set idpresenca="+ idpresenca + ", data='"+data+"',falta='"+falta+"',idaluno="+idaluno+" where idpresenca="+parseInt(req.params.id),resp);
+    const idaluno =parseInt(req.body.aluno_idaluno);
+    execSQLQuery("Update usuario set idpresenca="+ idpresenca + ", data='"+data+"',falta='"+falta+"',aluno_idaluno="+idaluno+" where idpresenca="+parseInt(req.params.id),resp);
  });
  
  ///////////////////////////////////////////////////////////////////// Fim EndPoints usuario   //////////////////////////////////////////////////////////////////////
