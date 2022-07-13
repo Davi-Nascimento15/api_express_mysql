@@ -99,7 +99,7 @@ app.get('/faltas', (req,resp)=>{
     execSQLQuery('SELECT * from presenca',resp);
  });
  
- //Find
+ ///Find
  
  app.get('/faltas/:id?',(req,resp)=>{
      let filtro = '';
