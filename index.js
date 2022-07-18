@@ -135,4 +135,54 @@ app.get('/faltas', (req,resp)=>{
     execSQLQuery("Update usuario set idpresenca="+ idpresenca + ", data='"+data+"',falta='"+falta+"',aluno_idaluno="+idaluno+" where idpresenca="+parseInt(req.params.id),resp);
  });
  
+ ///////////////////////////////////////////////////////////////////// Fim EndPoints Faltas   //////////////////////////////////////////////////////////////////////
+ /////////////////////////////////////////////////////////////////// EndPoints Avisos  //////////////////////////////////////////////////////////////////////////
+
+//List
+
+app.get('/avisos', (req,resp)=>{
+    execSQLQuery('SELECT * from avisos',resp);
+ });
+ 
+ ///Find
+ 
+ app.get('/avisos/:id?',(req,resp)=>{
+     let filtro = '';
+     if(req.params.id){
+         filtro = ' where turma_idTurma='+parseInt(req.params.id);
+     }
+     execSQLQuery('SELECT * FROM avisos'+filtro,resp);
+ });
+ 
+ //Delete
+ 
+ app.delete('/avisos/:id',(req,resp)=>{
+     execSQLQuery('Delete from avisos where idpresenca='+parseInt(req.params.id),resp);
+ });
+ 
+ //Create
+ 
+ app.post('/avisos',(req,resp)=>{
+    const idAvisos = parseInt(req.body.idAvisos);
+    const dataEntrega = req.body.dataEntrega;
+    const dataGeracao = req.body.dataGeracao;
+    const descricao = req.body.descricao;
+    const disciplina_iddisciplina = parseInt(req.body.disciplina_iddisciplina);
+    const professor_idprofessor = parseInt(req.body.professor_idprofessor);
+    const turma_idTurma = parseInt(req.body.turma_idTurma);
+    const tipoaviso = parseInt(req.body.tipoaviso); 
+    
+     execSQLQuery("Insert into avisos (idAvisos,dataEntrega,dataGeracao,descricao, disciplina_iddisciplina,professor_idprofessor,turma_idTurma,tipoaviso) values("+ idAvisos + ",'"+dataEntrega+"','"+dataGeracao+"','"+descricao+"',"+disciplina_iddisciplina+","+professor_idprofessor+","+turma_idTurma+","+tipoaviso+")",resp); 
+ });
+ 
+ //Update
+ 
+ app.patch('/avisos/:id', (req,resp)=>{
+    const idprsenca = parseInt(req.body.idprsenca);
+    const data = req.body.data;
+    const falta = req.body.falta;
+    const idaluno =parseInt(req.body.aluno_idaluno);
+    execSQLQuery("Update avisos set idAvisos="+ idAvisos + ",dataEntrega = '"+dataEntrega+"',dataGeracao='"+dataGeracao+"',descricao='"+descricao+"',disciplina_iddisciplina="+disciplina_iddisciplina+",professor_idprofessor="+professor_idprofessor+",turma_idTurma="+turma_idTurma+",tipoaviso="+tipoaviso,resp);
+ });
+ 
  ///////////////////////////////////////////////////////////////////// Fim EndPoints usuario   //////////////////////////////////////////////////////////////////////
