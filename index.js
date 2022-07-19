@@ -141,7 +141,7 @@ app.get('/faltas', (req,resp)=>{
 //List
 
 app.get('/avisos', (req,resp)=>{
-    execSQLQuery('SELECT * from avisos',resp);
+    execSQLQuery('SELECT * from AvisosAluno',resp);
  });
  
  ///Find
@@ -151,13 +151,13 @@ app.get('/avisos', (req,resp)=>{
      if(req.params.id){
          filtro = ' where turma_idTurma='+parseInt(req.params.id);
      }
-     execSQLQuery('SELECT * FROM avisos'+filtro,resp);
+     execSQLQuery('SELECT * FROM AvisosAluno'+filtro,resp);
  });
  
  //Delete
  
  app.delete('/avisos/:id',(req,resp)=>{
-     execSQLQuery('Delete from avisos where idpresenca='+parseInt(req.params.id),resp);
+     execSQLQuery('Delete from Avisos where idAvisos='+parseInt(req.params.id),resp);
  });
  
  //Create
