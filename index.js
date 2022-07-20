@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const mysql = require('mysql2');
+var  uniqid = require('uniqid'); 
 
 //Função para execução das querys
 
@@ -90,7 +91,6 @@ app.patch('/usuarios/:id', (req,resp)=>{
 });
 
 ///////////////////////////////////////////////////////////////////// Fim EndPoints usuario   //////////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////// EndPoints Faltas  //////////////////////////////////////////////////////////////////////////
 
 //List
@@ -185,4 +185,50 @@ app.get('/avisos', (req,resp)=>{
     execSQLQuery("Update avisos set idAvisos="+ idAvisos + ",dataEntrega = '"+dataEntrega+"',dataGeracao='"+dataGeracao+"',descricao='"+descricao+"',disciplina_iddisciplina="+disciplina_iddisciplina+",professor_idprofessor="+professor_idprofessor+",turma_idTurma="+turma_idTurma+",tipoaviso="+tipoaviso,resp);
  });
  
- ///////////////////////////////////////////////////////////////////// Fim EndPoints usuario   //////////////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////////// Fim EndPoints Avisos   //////////////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////////// EndPoints Sugestao     //////////////////////////////////////////////////////////////////////
+
+  ///List
+
+  app.get('/sugestao', (req,resp)=>{
+    execSQLQuery('SELECT * from sugestao',resp);
+ });
+
+  ///Find
+ 
+  app.get('/sugestao/:id?',(req,resp)=>{
+    let filtro = '';
+    if(req.params.id){
+        filtro = ' WHERE usuario_idmatricula='+parseInt(req.params.id);
+    }
+    execSQLQuery('SELECT * FROM sugestao'+filtro,resp);
+});
+
+ //Delete
+ 
+ app.delete('/sugestao/:id?',(req,resp)=>{
+    execSQLQuery("DELETE FROM sugestao WHERE idSugestao='"+req.params.id+"'",resp);
+});
+
+ //Create
+ 
+ app.post('/sugestao',(req,resp)=>{
+    const idSugestao = uniqid.time();
+    const titulo = req.body.titulo;
+    const descricao = req.body.descricao;
+    const curtidas = parseInt(req.body.curtidas);
+    const idmatricula =parseInt(req.body.usuario_idmatricula);
+    execSQLQuery("INSERT INTO sugestao (idSugestao,titulo,descricao,curtidas,usuario_idmatricula) VALUES('"+ idSugestao + "','"+titulo+"','"+descricao+"',"+curtidas+","+idmatricula+")",resp); 
+});
+
+ //Update
+ 
+ app.patch('/sugestao/:id', (req,resp)=>{
+    const idSugestao = req.body.idSugestao;
+    const titulo = req.body.titulo;
+    const descricao = req.body.descricao;
+    const curtidas = parseInt(req.body.curtidas);
+    const idmatricula =parseInt(req.body.usuario_idmatricula);
+    execSQLQuery("UPDATE sugestao SET idSugestao='"+ idSugestao + "',titulo='"+titulo+"',descricao='"+descricao+"',curtidas="+curtidas+",usuario_idmatricula="+idmatricula+ " WHERE idSugestao='"+(req.params.id)+"'",resp);
+ });
+ ///////////////////////////////////////////////////////////////////// EndPoints Sugestao     //////////////////////////////////////////////////////////////////////
