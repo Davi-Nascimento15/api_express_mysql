@@ -51,7 +51,7 @@ app.get('/',(req,resp)=>
 //List
 
 app.get('/usuarios', (req,resp)=>{
-   execSQLQuery('SELECT * from usuario',resp);
+   execSQLQuery('SELECT * from LoginUsuario',resp);
 });
 
 //Find
@@ -59,9 +59,9 @@ app.get('/usuarios', (req,resp)=>{
 app.get('/usuarios/:id?',(req,resp)=>{
     let filtro = '';
     if(req.params.id){
-        filtro = ' where idmatricula='+parseInt(req.params.id);
+        filtro = ' where matriculaUsuario='+parseInt(req.params.id);
     }
-    execSQLQuery('SELECT * FROM usuario'+filtro,resp);
+    execSQLQuery('SELECT * FROM LoginUsuario'+filtro,resp);
 });
 
 //Delete
