@@ -70,7 +70,7 @@ app.delete('/usuarios/:id',(req,resp)=>{
     execSQLQuery('Delete from usuario where idmatricula='+parseInt(req.params.id),resp);
 });
 
-//Create
+//Create 
 
 app.post('/usuarios',(req,resp)=>{
     const idmatricula = parseInt(req.body.idmatricula);
