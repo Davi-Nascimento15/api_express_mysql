@@ -232,3 +232,48 @@ app.get('/avisos', (req,resp)=>{
     execSQLQuery("UPDATE sugestao SET idSugestao='"+ idSugestao + "',titulo='"+titulo+"',descricao='"+descricao+"',curtidas="+curtidas+",usuario_idmatricula="+idmatricula+ " WHERE idSugestao='"+(req.params.id)+"'",resp);
  });
  ///////////////////////////////////////////////////////////////////// EndPoints Sugestao     //////////////////////////////////////////////////////////////////////
+ /////////////////////////////////////////////////////////////////// EndPoints diaLetivo  //////////////////////////////////////////////////////////////////////////
+
+//List
+
+app.get('/dialetivo', (req,resp)=>{
+    execSQLQuery('SELECT * from dialetivo',resp);
+ });
+ 
+ ///Find
+ 
+ app.get('/dialetivo/:id?',(req,resp)=>{
+     let filtro = '';
+     if(req.params.id){
+         filtro = ' where turma_idTurma='+parseInt(req.params.id);
+     }
+     execSQLQuery('SELECT * FROM dialetivo'+filtro,resp);
+ });
+ 
+ //Delete
+ 
+ app.delete('/dialetivo/:id',(req,resp)=>{
+     execSQLQuery('Delete from dialetivo where id='+parseInt(req.params.id),resp);
+ });
+ 
+ //Create
+ 
+ app.post('/dialetivo',(req,resp)=>{
+    const id = parseInt(req.body.id);
+    const ano=  parseInt(req.body.ano);
+    const data = req.body.data;
+    const tipo = parseInt(req.body.tipo);  
+    execSQLQuery("Insert into dialetivo (id,ano,data,tipo) values("+ id + ","+ano+",'"+data+"',"+tipo+")",resp); 
+ });
+ 
+ //Update
+ 
+ app.patch('/dialetivo/:id', (req,resp)=>{
+    const id = parseInt(req.body.id);
+    const ano=  parseInt(req.body.ano);
+    const data = req.body.data;
+    const tipo = parseInt(req.body.tipo);    
+    execSQLQuery("Update dialetivo set id="+ id + ",ano = "+ano+",data='"+data+"',tipo="+tipo+" where id="+parseInt(req.params.id),resp);
+ });
+ 
+ ///////////////////////////////////////////////////////////////////// Fim EndPoints Avisos   //////////////////////////////////////////////////////////////////////
