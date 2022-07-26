@@ -54,6 +54,12 @@ app.get('/usuarios', (req,resp)=>{
    execSQLQuery('SELECT * from LoginUsuario',resp);
 });
 
+//List
+
+app.get('/usuarios/chat', (req,resp)=>{
+    execSQLQuery('SELECT * from Usuario where tipo=2',resp);
+ });
+
 //Find
 
 app.get('/usuarios/:id?',(req,resp)=>{
@@ -276,4 +282,47 @@ app.get('/dialetivo', (req,resp)=>{
     execSQLQuery("Update dialetivo set id="+ id + ",ano = "+ano+",data='"+data+"',tipo="+tipo+" where id="+parseInt(req.params.id),resp);
  });
  
- ///////////////////////////////////////////////////////////////////// Fim EndPoints Avisos   //////////////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////////// Fim EndPoints DiaLetivo   //////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////// EndPoints MensagemChat  //////////////////////////////////////////////////////////////////////////
+
+//List
+
+app.get('/mensagemchat', (req,resp)=>{
+    execSQLQuery('SELECT * from mensagemchat',resp);
+ });
+ 
+ ///Find
+ 
+ app.get('/mensagemchat/:id?/:destinatario?',(req,resp)=>{
+     let filtro = '';
+     if(req.params.id){
+         filtro = " where remetente_idmatricula="+parseInt(req.params.id)+" and destinatario_idmatricula="+parseInt(req.params.destinatario) +" or destinatario_idmatricula="+parseInt(req.params.id)+" and remetente_idmatricula="+parseInt(req.params.destinatario)+" order by idchat";
+    }
+     execSQLQuery('SELECT * FROM mensagemchat'+filtro,resp);
+ });
+ 
+ //Delete
+ 
+ app.delete('/mensagemchat/:id',(req,resp)=>{
+     execSQLQuery('Delete from mensagemchat where idchat='+parseInt(req.params.id),resp);
+ });
+ 
+ //Create
+ 
+ app.post('/mensagemchat',(req,resp)=>{
+    const conteudo = req.body.conteudo;
+    const data = req.body.data;
+    const hora = req.body.hora;
+    const visualizada = req.body.visualizada;
+    const destinatario_idmatricula = parseInt(req.body.destinatario_idmatricula);
+    const remetente_idmatricula = parseInt(req.body.remetente_idmatricula);  
+    execSQLQuery("Insert into mensagemchat (conteudo,data,hora, visualizada,destinatario_idmatricula, remetente_idmatricula) values('"+conteudo+"','"+data+"','"+hora+"','"+visualizada+"',"+destinatario_idmatricula+","+remetente_idmatricula+")",resp); 
+ });
+ 
+ //Update
+ 
+ app.patch('/mensagemchat/:id', (req,resp)=>{
+ console.log(req.params.id);
+ execSQLQuery("Update mensagemchat set visualizada='1' where idchat="+parseInt(req.params.id),resp);
+ });
+ ///////////////////////////////////////////////////////////////////// Fim EndPoints MensagemChat////////////////////////////////////////////////////////////////////
