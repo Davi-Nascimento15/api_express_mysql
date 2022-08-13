@@ -212,6 +212,15 @@ app.get('/avisos', (req,resp)=>{
     execSQLQuery('SELECT * FROM sugestao'+filtro,resp);
 });
 
+
+///Find - Escola
+app.get('/sugestao/escola/:id?',(req,resp)=>{
+    let filtro = '';
+    if(req.params.id){
+        filtro = ' WHERE escola_idEscola='+parseInt(req.params.id);
+    }
+    execSQLQuery('SELECT * FROM sugestao'+filtro,resp);
+});
  //Delete
  
  app.delete('/sugestao/:id?',(req,resp)=>{
@@ -224,9 +233,9 @@ app.get('/avisos', (req,resp)=>{
     const idSugestao = uniqid.time();
     const titulo = req.body.titulo;
     const descricao = req.body.descricao;
-    const curtidas = parseInt(req.body.curtidas);
     const idmatricula =parseInt(req.body.usuario_idmatricula);
-    execSQLQuery("INSERT INTO sugestao (idSugestao,titulo,descricao,curtidas,usuario_idmatricula) VALUES('"+ idSugestao + "','"+titulo+"','"+descricao+"',"+curtidas+","+idmatricula+")",resp); 
+    const idescola =parseInt(req.body.escola_idEscola);
+    execSQLQuery("INSERT INTO sugestao (idSugestao,titulo,descricao,usuario_idmatricula,escola_idEscola) VALUES('"+ idSugestao + "','"+titulo+"','"+descricao+"',"+idmatricula+","+idescola+")",resp); 
 });
 
  //Update
@@ -235,9 +244,8 @@ app.get('/avisos', (req,resp)=>{
     const idSugestao = req.body.idSugestao;
     const titulo = req.body.titulo;
     const descricao = req.body.descricao;
-    const curtidas = parseInt(req.body.curtidas);
     const idmatricula =parseInt(req.body.usuario_idmatricula);
-    execSQLQuery("UPDATE sugestao SET idSugestao='"+ idSugestao + "',titulo='"+titulo+"',descricao='"+descricao+"',curtidas="+curtidas+",usuario_idmatricula="+idmatricula+ " WHERE idSugestao='"+(req.params.id)+"'",resp);
+    execSQLQuery("UPDATE sugestao SET idSugestao='"+ idSugestao + "',titulo='"+titulo+"',descricao='"+descricao+"',usuario_idmatricula="+idmatricula+ " WHERE idSugestao='"+(req.params.id)+"'",resp);
  });
  ///////////////////////////////////////////////////////////////////// EndPoints Sugestao     //////////////////////////////////////////////////////////////////////
  /////////////////////////////////////////////////////////////////// EndPoints diaLetivo  //////////////////////////////////////////////////////////////////////////
