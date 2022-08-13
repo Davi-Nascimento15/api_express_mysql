@@ -6,7 +6,7 @@ const port = 3000;
 const mysql = require('mysql2');
 var  uniqid = require('uniqid'); 
 
-//Função para execução das querys
+//Função para execução das querys!
 
 function execSQLQuery(sqlQuery, resp){
 
