@@ -199,7 +199,7 @@ app.get('/avisos', (req,resp)=>{
   ///List
 
   app.get('/sugestao', (req,resp)=>{
-    execSQLQuery('SELECT * from sugestao',resp);
+    execSQLQuery('SELECT * FROM sugestao',resp);
  });
 
   ///Find
@@ -348,5 +348,14 @@ app.get('/mensagemchat', (req,resp)=>{
     
 app.get('/noticia', (req,resp)=>{
     execSQLQuery('SELECT * FROM noticia',resp);
-}); 
+});
+
+///Find - Escola
+app.get('/noticia/escola/:id?',(req,resp)=>{
+    let filtro = '';
+    if(req.params.id){
+        filtro = ' WHERE escola_idEscola='+parseInt(req.params.id);
+    }
+    execSQLQuery('SELECT * FROM noticia'+filtro,resp);
+});
 ///////////////////////////////////////////////////////////////////// Fim EndPoints Noticia////////////////////////////////////////////////////////////////////
