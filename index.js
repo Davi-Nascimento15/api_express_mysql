@@ -83,7 +83,8 @@ app.post('/usuarios',(req,resp)=>{
     const nome = req.body.nome;
     const senha = req.body.senha;
     const tipo =parseInt(req.body.tipo);
-    execSQLQuery("Insert into usuario (idmatricula,nome,senha,tipo) values("+ idmatricula + ",'"+nome+"','"+senha+"',"+tipo+")",resp); 
+    const escola_idescola =parseInt(req.body.escola_idescola);
+    execSQLQuery("Insert into usuario (idmatricula,nome,senha,tipo,escola_idescola) values("+ idmatricula + ",'"+nome+"','"+senha+"',"+tipo+","+escola_idescola+")",resp); 
 });
 
 //Update
@@ -93,7 +94,8 @@ app.patch('/usuarios/:id', (req,resp)=>{
     const nome = req.body.nome;
     const senha = req.body.senha;
     const tipo =parseInt(req.body.tipo);
-    execSQLQuery("Update usuario set idmatricula="+ idmatricula + ", nome='"+nome+"',senha='"+senha+"',tipo="+tipo+" where idmatricula="+parseInt(req.params.id),resp);
+    const escola_idescola = parseInt(req.body.escola_idescola);
+    execSQLQuery("Update usuario set idmatricula="+ idmatricula + ", nome='"+nome+"',senha='"+senha+"',tipo="+tipo+",escola_idescola="+escola_idescola+" where idmatricula="+parseInt(req.params.id),resp);
 });
 
 ///////////////////////////////////////////////////////////////////// Fim EndPoints usuario   //////////////////////////////////////////////////////////////////////
@@ -300,12 +302,20 @@ app.get('/mensagemchat', (req,resp)=>{
     }
      execSQLQuery('SELECT * FROM mensagemchat'+filtro,resp);
  });
- 
+
+ //Count não lidas
+ app.get('/mensagemchat/count/:id?/:destinatario?', (req, resp)=>{
+    if(req.params.id){
+        execSQLQuery("SELECT COUNT(visualizada) AS visualizou FROM mensagemchat where visualizada='0' and destinatario_idmatricula="+ parseInt(req.params.destinatario)+" and remetente_idmatricula="+parseInt(req.params.id),resp);
+    }
+ });
+
  //Delete
  
  app.delete('/mensagemchat/:id',(req,resp)=>{
      execSQLQuery('Delete from mensagemchat where idchat='+parseInt(req.params.id),resp);
  });
+
  
  //Create
  
@@ -321,9 +331,9 @@ app.get('/mensagemchat', (req,resp)=>{
  
  //Update
  
- app.patch('/mensagemchat/:id', (req,resp)=>{
- console.log(req.params.id);
- execSQLQuery("Update mensagemchat set visualizada='1' where idchat="+parseInt(req.params.id),resp);
+ app.patch('/mensagemchat/:usuario?/:destinatario?', (req,resp)=>{
+ console.log(req.params.destinatario);
+ execSQLQuery("Update mensagemchat set visualizada='1' where destinatario_idmatricula="+parseInt(req.params.destinatario)+" and remetente_idmatricula="+parseInt(req.params.usuario),resp);
  });
  ///////////////////////////////////////////////////////////////////// Fim EndPoints MensagemChat////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////// EndPoints Noticia////////////////////////////////////////////////////////////////////
