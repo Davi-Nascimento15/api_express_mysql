@@ -252,8 +252,8 @@ app.get('/sugestao/escola/:id?',(req,resp)=>{
 
 //List
 
-app.get('/dialetivo', (req,resp)=>{
-    execSQLQuery('SELECT * from dialetivo',resp);
+app.get('/dialetivo/ano/:id?', (req,resp)=>{
+    execSQLQuery('SELECT * from dialetivo where escola_idEscola='+parseInt(req.params.id),resp);
  });
  
  ///Find
