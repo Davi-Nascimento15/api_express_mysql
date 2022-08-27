@@ -359,3 +359,35 @@ app.get('/noticia/escola/:id?',(req,resp)=>{
     execSQLQuery('SELECT * FROM noticia'+filtro,resp);
 });
 ///////////////////////////////////////////////////////////////////// Fim EndPoints Noticia////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////// EndPoints Boletim////////////////////////////////////////////////////////////////////
+    
+   app.get('/nota', (req,resp)=>{
+    execSQLQuery('SELECT * FROM nota',resp);
+});
+
+///Find - Escola
+app.get('/nota/:id?/:bimestre?/:ano?',(req,resp)=>{
+    let filtro = '';
+    if(req.params.id){
+        filtro = ' WHERE aluno_idaluno='+parseInt(req.params.id);
+        filtro += ' and bimestre='+parseInt(req.params.bimestre)+' and anoLetivo='+parseInt(req.params.ano);
+    }
+    execSQLQuery('SELECT * FROM nota'+filtro,resp);
+});
+///////////////////////////////////////////////////////////////////// Fim EndPoints Boletim////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////EndPoints Disciplina///////////////////////////////////////////////////////////////////
+    
+app.get('/disciplina', (req,resp)=>{
+    execSQLQuery('SELECT * FROM nota',resp);
+});
+
+///Find - Escola
+app.get('/disciplina/:id?',(req,resp)=>{
+    let filtro = '';
+    if(req.params.id){
+        filtro = ' WHERE A.idaluno='+parseInt(req.params.id);
+    }
+    execSQLQuery('select D.iddisciplina, D.nome, D.escola_idEscola from disciplina D inner join turma_disciplina TD on TD.turma_id=D.iddisciplina inner join Turma T on T.idTurma=TD.disciplina_id inner join aluno A on A.turma_idTurma=T.idTurma'+filtro,resp);
+});
+///////////////////////////////////////////////////////////////////// Fim EndPoints Disciplina////////////////////////////////////////////////////////////////////
+
